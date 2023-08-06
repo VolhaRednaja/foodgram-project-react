@@ -6,8 +6,9 @@ from users.paginator import CustomPaginator
 
 from .filters import IngredientsFilter, RecipeFilter
 from recipes.mixins import RetriveAndListViewSet
-from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
-                     ShoppingList, Tag)
+from recipes.models import (Favorite, Ingredient,
+                            Recipe, RecipeIngredient,
+                            ShoppingList, Tag)
 from .permissions import IsAuthorOrAdmin
 from .serializers import (AddRecipeSerializer, FavouriteSerializer,
                           IngredientsSerializer, ShoppingListSerializer,
@@ -59,7 +60,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
             pk,
         )
 
-
     @action(
         detail=True,
         methods=["POST", "DELETE"],
@@ -74,7 +74,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
             "Этот рецепт уже в корзине покупок",
             pk,
         )
-
 
     @action(detail=False, methods=["GET"],
             permission_classes=[permissions.IsAuthenticated])
