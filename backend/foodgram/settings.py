@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY',
-                       default='django-insecure-@=fy3xy%071+5398q9dr@_%15f6%k7q17pwsk1vxni)f!h=inw')
+                       default='django-insecure-some-secretkey')
 
 DEBUG = False
 
@@ -13,6 +13,7 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     'recipes',
     'users',
+    'api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,10 +62,10 @@ WSGI_APPLICATION = 'foodgram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE',
-                                 default='django.db.backends.sqlite3'),
+                                 default='django.db.backends.postgresql'),
         'NAME': os.environ.get('DB_NAME', default='test'),
         'USER': os.environ.get('POSTGRES_USER', default='test'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='test.sqlite3'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='test.postgresql'),
         'HOST': os.environ.get('DB_HOST', default='localhost'),
         'PORT': os.environ.get('DB_PORT')
     }

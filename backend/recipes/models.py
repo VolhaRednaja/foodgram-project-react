@@ -35,7 +35,7 @@ class Tag(models.Model):
         unique=True,
         verbose_name='Цвет'
     )
-    slug = models.CharField(
+    slug = models.SlugField(
         max_length=100,
         unique=True,
         verbose_name='Идентификатор'
@@ -67,7 +67,6 @@ class Recipe(models.Model):
         verbose_name='Фото рецепта'
     )
     text = models.TextField(
-
         verbose_name='Описание рецепта'
     )
     ingredients = models.ManyToManyField(
@@ -83,7 +82,7 @@ class Recipe(models.Model):
     cooking_time = models.PositiveIntegerField(
         default=1,
         validators=[
-            MinValueValidator(5, 'Приготовление от 5 минут')
+            MinValueValidator(1, 'Приготовление от 1 минуты')
         ],
         verbose_name='Время приготовления в минутах',
     )
