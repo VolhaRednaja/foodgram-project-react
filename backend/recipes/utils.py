@@ -16,18 +16,18 @@ def download_file_response(ingredients_list):
                                        'filename="buylist.txt"')
     return response
 
-def create_relation(model_type, serializer_type, request, error_text="", pk=None):
+
+def create_relation(model_type, serializer_type, request, error_text, pk=None):
     user = request.user
     recipe = get_object_or_404(Recipe, id=pk)
     if request.method == "POST":
         if model_type.objects.filter(user=user, recipe=recipe).exists():
             return Response(
-                      {"error": error_text},
-                      status=status.HTTP_400_BAD_REQUEST,
-                  )
+                {"error": error_text},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         data = model_type.objects.create(user=user, recipe=recipe)
-        serializer = serializer_type(data,
-                                                context={"request": request})
+        serializer = serializer_type(data, context={"request": request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     if request.method == "DELETE":
