@@ -17,7 +17,7 @@ from .mixins import RetriveAndListViewSet
 from .paginator import CustomPaginator
 from .permissions import IsAuthorOrAdmin
 from .serializers import (AddRecipeSerializer, CustomUserSerializer,
-                          FavouriteSerializer, IngredientsSerializer, 
+                          FavouriteSerializer, IngredientsSerializer,
                           ShoppingListSerializer, ShowRecipeFullSerializer,
                           TagsSerializer, ShowFollowSerializer)
 
