@@ -2,7 +2,9 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from djoser.views import TokenCreateView, TokenDestroyView
 
-from .views import (IngredientsViewSet, RecipeViewSet, TagsViewSet, FollowApiView, ListFollowViewSet)
+from .views import (IngredientsViewSet, RecipeViewSet,
+                    TagsViewSet, FollowApiView,
+                    ListFollowViewSet)
 
 router = DefaultRouter()
 
