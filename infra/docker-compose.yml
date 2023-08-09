@@ -16,7 +16,7 @@ services:
       - .env
 
   backend:
-    build: ../backend/
+    image: volharednaja/foodgram_backend
     volumes:
       - static:/code/static_backend/
       - media:/code/media/
@@ -27,9 +27,7 @@ services:
       - .env
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: volharednaja/foodgram_frontend
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
