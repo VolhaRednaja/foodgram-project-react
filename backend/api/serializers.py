@@ -176,7 +176,7 @@ class AddRecipeSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     'Каждый ингредиент может быть упомянут только один раз'
                 )
-            if ingredient['value'] < 1:
+            elif ingredient['value'] < 1:
                 raise serializers.ValidationError(
                     'Количество ингредиентов должно быть целым'
                     ' положительным числом'
