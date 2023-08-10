@@ -29,3 +29,10 @@ docker compose exec backend python manage.py createsuperuser
 ``` 
 docker compose exec backend python manage.py loaddata fixtures/ingredients.json
 ```
+
+### Данные проекта
+
+адрес https://volha-foodgram.ddns.net/
+superuser: 
+  email: admin@ya.ru
+  password: admin
