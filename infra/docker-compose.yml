@@ -18,7 +18,7 @@ services:
   backend:
     image: volharednaja/foodgram_backend
     volumes:
-      - static:/code/static_backend/
+      - static:/static_backend/
       - media:/code/media/
     restart: always
     depends_on:
@@ -42,7 +42,7 @@ services:
       - ../frontend/build:/usr/share/nginx/html/
       - ../docs/:/usr/share/nginx/html/api/docs/
       - static:/var/html/static_backend/
-      - media:/media/
+      - media:/code/media/
     restart: always
     depends_on:
       - backend
