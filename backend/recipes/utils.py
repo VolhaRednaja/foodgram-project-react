@@ -16,6 +16,7 @@ def download_file_response(ingredients_list):
                                        'filename="buylist.txt"')
     return response
 
+
 """
 def create_relation(model_type, serializer_type, request, error_text, pk=None):
     user = request.user
