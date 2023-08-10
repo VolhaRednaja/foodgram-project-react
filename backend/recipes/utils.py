@@ -36,3 +36,8 @@ def create_relation(model_type, serializer_type, request, error_text, pk):
             data.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response(
+        {"error": "ф-я не отработала"},
+        status=status.HTTP_400_BAD_REQUEST
+    )
