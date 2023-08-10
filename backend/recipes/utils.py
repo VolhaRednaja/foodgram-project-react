@@ -1,8 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+"""from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Recipe
+from .models import Recipe"""
 
 
 def download_file_response(ingredients_list):
@@ -16,8 +16,8 @@ def download_file_response(ingredients_list):
                                        'filename="buylist.txt"')
     return response
 
-
-"""def create_relation(model_type, serializer_type, request, error_text, pk=None):
+"""
+def create_relation(model_type, serializer_type, request, error_text, pk=None):
     user = request.user
     recipe = get_object_or_404(Recipe, id=pk)
     if request.method == "POST":
