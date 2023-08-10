@@ -133,10 +133,10 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = '/static_backend/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_backend')
+STATIC_ROOT = BASE_DIR / 'static_backend'
 
 MEDIA_URL = '/mediafiles/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
