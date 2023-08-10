@@ -1,8 +1,8 @@
 from django.http import HttpResponse
-"""from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Recipe"""
+from .models import Recipe
 
 
 def download_file_response(ingredients_list):
@@ -17,7 +17,6 @@ def download_file_response(ingredients_list):
     return response
 
 
-"""
 def create_relation(model_type, serializer_type, request, error_text, pk):
     user = request.user
     recipe = get_object_or_404(Recipe, id=pk)
@@ -36,4 +35,4 @@ def create_relation(model_type, serializer_type, request, error_text, pk):
         if data.exists():
             data.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_400_BAD_REQUEST)"""
+        return Response(status=status.HTTP_400_BAD_REQUEST)
