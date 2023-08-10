@@ -8,7 +8,7 @@ from .models import Recipe"""
 def download_file_response(ingredients_list):
     buy_list = []
     for item in ingredients_list:
-        buy_list.append(f'{item["ingredient__name"]} - {item["value"]} '
+        buy_list.append(f'{item["ingredient__name"]} - {item["amount"]} '
                         f'{item["ingredient__measurement_unit"]} \n')
 
     response = HttpResponse(buy_list, 'Content-Type: text/plain')
@@ -18,7 +18,7 @@ def download_file_response(ingredients_list):
 
 
 """
-def create_relation(model_type, serializer_type, request, error_text, pk=None):
+def create_relation(model_type, serializer_type, request, error_text, pk):
     user = request.user
     recipe = get_object_or_404(Recipe, id=pk)
     if request.method == "POST":
