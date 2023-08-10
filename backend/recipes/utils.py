@@ -17,7 +17,7 @@ def download_file_response(ingredients_list):
     return response
 
 
-def create_relation(model_type, serializer_type, request, error_text, pk=None):
+"""def create_relation(model_type, serializer_type, request, error_text, pk=None):
     user = request.user
     recipe = get_object_or_404(Recipe, id=pk)
     if request.method == "POST":
@@ -35,4 +35,4 @@ def create_relation(model_type, serializer_type, request, error_text, pk=None):
         if data.exists():
             data.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)"""
