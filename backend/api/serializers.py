@@ -104,7 +104,7 @@ class ShowRecipeIngredientsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeIngredient
-        fields = ('id', 'name', 'measurement_unit', 'value')
+        fields = ('id', 'name', 'measurement_unit', 'amount')
 
 
 class ShowRecipeSerializer(serializers.ModelSerializer):
@@ -148,11 +148,11 @@ class ShowRecipeFullSerializer(serializers.ModelSerializer):
 
 class AddRecipeIngredientsSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
-    value = serializers.IntegerField()
+    amount = serializers.IntegerField()
 
     class Meta:
         model = RecipeIngredient
-        fields = ('id', 'value')
+        fields = ('id', 'amount')
 
 
 class AddRecipeSerializer(serializers.ModelSerializer):
@@ -176,7 +176,7 @@ class AddRecipeSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     'Каждый ингредиент может быть упомянут только один раз'
                 )
-            elif ingredient['value'] < 1:
+            if ingredient['amount'] < 1:
                 raise serializers.ValidationError(
                     'Количество ингредиентов должно быть целым'
                     ' положительным числом'
@@ -201,16 +201,16 @@ class AddRecipeSerializer(serializers.ModelSerializer):
     def add_recipe_ingredients(self, ingredients, recipe):
         for ingredient in ingredients:
             ingredient_id = ingredient['id']
-            value = ingredient['value']
+            amount = ingredient['amount']
             if RecipeIngredient.objects.filter(
                     recipe=recipe,
                     ingredient=ingredient_id,
             ).exists():
-                value += ingredient['value']
+                amount += ingredient['amount']
             RecipeIngredient.objects.update_or_create(
                 recipe=recipe,
                 ingredient=ingredient_id,
-                defaults={'value': value},
+                defaults={'amount': amount},
             )
 
     def create(self, validated_data):

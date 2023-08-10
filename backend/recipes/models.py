@@ -107,7 +107,7 @@ class RecipeIngredient(models.Model):
         on_delete=models.PROTECT,
         verbose_name='Ингредиент'
     )
-    value = models.PositiveIntegerField(
+    amount = models.PositiveIntegerField(
         validators=[MinValueValidator(1, 'Минимальное количество = 1'), ],
         verbose_name='Количество'
     )

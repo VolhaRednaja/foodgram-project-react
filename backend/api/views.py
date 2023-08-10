@@ -159,5 +159,5 @@ class RecipeViewSet(viewsets.ModelViewSet):
         ).values(
             'ingredient__name',
             'ingredient__measurement_unit'
-        ).annotate(value=Sum('value'))
+        ).annotate(amount=Sum('amount'))
         return download_file_response(ingredients_list)

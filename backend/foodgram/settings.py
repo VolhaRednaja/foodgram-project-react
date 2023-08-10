@@ -6,9 +6,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY',
                        default='django-insecure-some-secretkey')
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'volha-foodgram.ddns.net']
 
 INSTALLED_APPS = [
     'recipes',
