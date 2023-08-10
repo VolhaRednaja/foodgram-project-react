@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from recipes.models import (Favorite, Ingredient,
                             Recipe, RecipeIngredient,
                             ShoppingList, Tag)
-from recipes.utils import download_file_response #, create_relation
+from recipes.utils import download_file_response
 from users.models import Follow
 from .filters import IngredientsFilter, RecipeFilter
 from .mixins import RetriveAndListViewSet
