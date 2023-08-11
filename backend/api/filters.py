@@ -1,7 +1,7 @@
 import django_filters as filters
 import rest_framework
 
-from recipes.models import Ingredient, Recipe, Tag
+from recipes.models import Ingredient, Recipe
 
 
 class IngredientsFilter(filters.FilterSet):
