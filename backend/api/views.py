@@ -120,7 +120,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         tags: list = self.request.query_params.getlist("tags")
         if tags:
-            queryset = queryset.filter(tags__slug__in=tags).distinct()
+            for tag in tags:
+                queryset = queryset.filter(tags__slug=tag)
 
         author: str = self.request.query_params.get("author")
         if author:
@@ -129,13 +130,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if self.request.user.is_anonymous:
             return queryset
 
-        is_in_cart: str = self.request.query_params.get("is_in_shopping_cart")
+        is_in_cart: int = self.request.query_params.get("is_in_shopping_cart")
         if is_in_cart == 1:
             queryset = queryset.filter(in_carts__user=self.request.user)
         elif is_in_cart == 0:
             queryset = queryset.exclude(in_carts__user=self.request.user)
 
-        is_favorite: str = self.request.query_params.get("is_favorited")
+        is_favorite: int = self.request.query_params.get("is_favorited")
         if is_favorite == 1:
             queryset = queryset.filter(in_favorites__user=self.request.user)
         elif is_favorite == 0:
