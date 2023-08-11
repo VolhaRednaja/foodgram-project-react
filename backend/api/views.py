@@ -1,4 +1,4 @@
-from django.db.models import Sum
+from django.db.models import Sum, QuerySet
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -115,8 +115,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = RecipeFilter
     pagination_class = CustomPaginator
-
-    """
+ 
     def get_queryset(self) -> QuerySet[Recipe]:
         queryset = self.queryset
 
@@ -144,7 +143,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
             queryset = queryset.exclude(in_favorites__user=self.request.user)
 
         return queryset
-    """
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
