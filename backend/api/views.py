@@ -1,4 +1,4 @@
-from django.db.models import Sum
+from django.db.models import Sum, QuerySet
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -115,6 +115,35 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = RecipeFilter
     pagination_class = CustomPaginator
+    
+    def get_queryset(self) -> QuerySet[Recipe]:
+        queryset = self.queryset
+
+        tags: list = self.request.query_params.getlist("tags".value)
+        if tags:
+            queryset = queryset.filter(tags__slug__in=tags).distinct()
+
+        author: str = self.request.query_params.get("author".value)
+        if author:
+            queryset = queryset.filter(author=author)
+
+        # Следующие фильтры только для авторизованного пользователя
+        if self.request.user.is_anonymous:
+            return queryset
+
+        is_in_cart: str = self.request.query_params.get("is_in_shopping_cart")
+        if is_in_cart == 1:
+            queryset = queryset.filter(in_carts__user=self.request.user)
+        elif is_in_cart == 0:
+            queryset = queryset.exclude(in_carts__user=self.request.user)
+
+        is_favorite: str = self.request.query_params.get("is_favorited")
+        if is_favorite == 1:
+            queryset = queryset.filter(in_favorites__user=self.request.user)
+        if is_favorite == 0:
+            queryset = queryset.exclude(in_favorites__user=self.request.user)
+
+        return queryset
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
