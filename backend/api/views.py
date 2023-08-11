@@ -116,6 +116,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filterset_class = RecipeFilter
     pagination_class = CustomPaginator
 
+    """
     def get_queryset(self) -> QuerySet[Recipe]:
         queryset = self.queryset
 
@@ -127,7 +128,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if author:
             queryset = queryset.filter(author=author)
 
-        # Следующие фильтры только для авторизованного пользователя
         if self.request.user.is_anonymous:
             return queryset
 
@@ -144,6 +144,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             queryset = queryset.exclude(in_favorites__user=self.request.user)
 
         return queryset
+    """
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
