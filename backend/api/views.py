@@ -115,15 +115,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = RecipeFilter
     pagination_class = CustomPaginator
-    
+
     def get_queryset(self) -> QuerySet[Recipe]:
         queryset = self.queryset
 
-        tags: list = self.request.query_params.getlist("tags".value)
+        tags: list = self.request.query_params.getlist("tags")
         if tags:
             queryset = queryset.filter(tags__slug__in=tags).distinct()
 
-        author: str = self.request.query_params.get("author".value)
+        author: str = self.request.query_params.get("author")
         if author:
             queryset = queryset.filter(author=author)
 
@@ -140,7 +140,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         is_favorite: str = self.request.query_params.get("is_favorited")
         if is_favorite == 1:
             queryset = queryset.filter(in_favorites__user=self.request.user)
-        if is_favorite == 0:
+        elif is_favorite == 0:
             queryset = queryset.exclude(in_favorites__user=self.request.user)
 
         return queryset
