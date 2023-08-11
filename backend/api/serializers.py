@@ -161,7 +161,7 @@ class AddRecipeSerializer(serializers.ModelSerializer):
     ingredients = AddRecipeIngredientsSerializer(many=True)
     tags = serializers.SlugRelatedField(
         queryset=Tag.objects.all(), many=True
-    ) #вот тут.
+    )
     cooking_time = serializers.IntegerField()
 
     class Meta:
