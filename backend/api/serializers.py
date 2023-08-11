@@ -160,7 +160,7 @@ class AddRecipeSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     ingredients = AddRecipeIngredientsSerializer(many=True)
     tags = serializers.SlugRelatedField(
-        queryset=Tag.objects.all(), many=True
+        queryset=Tag.objects.all(), many=True, slug_field="id"
     )
     cooking_time = serializers.IntegerField()
 
