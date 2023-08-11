@@ -12,7 +12,7 @@ from recipes.models import (Favorite, Ingredient,
                             ShoppingList, Tag)
 from recipes.utils import download_file_response
 from users.models import Follow
-from .filters import IngredientsFilter, RecipeFilter
+from .filters import IngredientsFilter
 from .mixins import RetriveAndListViewSet
 from .paginator import CustomPaginator
 from .permissions import IsAuthorOrAdmin
@@ -113,7 +113,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     serializer_class = ShowRecipeFullSerializer
     permission_classes = [IsAuthorOrAdmin]
     filter_backends = [DjangoFilterBackend]
-    filterset_class = RecipeFilter
     pagination_class = CustomPaginator
  
     def get_queryset(self) -> QuerySet[Recipe]:
