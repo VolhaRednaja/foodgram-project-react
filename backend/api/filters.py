@@ -30,7 +30,7 @@ class RecipeFilter(FilterSet):
         if value and not self.request.user_is_anonymus:
             print("_________is_favorited_filter_work_________")
             return queryset.filter(favorite__user=self.request.user)
-        print('===============================================================')
+        print('==============================================================')
         return queryset
 
     def get_is_in_shopping_cart(self, queryset, name, value):
