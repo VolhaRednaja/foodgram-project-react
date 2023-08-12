@@ -124,7 +124,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=["POST", "DELETE"],
-        url_path="favorite",
+        url_path="favorites",
         permission_classes=[IsAuthorOrAdmin],
     )
     def favorite(self, request, pk):
