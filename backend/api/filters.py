@@ -18,7 +18,7 @@ class RecipeFilter(filters.FilterSet):
     tags = filters.ModelMultipleChoiceFilter(
         field_name="tags__slug",
         to_field_name="slug",
-        method = "get_tags",
+        method="get_tags",
     )
     is_favorited = filters.CharFilter(method="get_is_favorited")
     is_in_shopping_cart = filters.CharFilter(
@@ -34,7 +34,7 @@ class RecipeFilter(filters.FilterSet):
         if value:
             for tag in tags:
                 queryset = queryset.filter(tags__slug=tag)
-            return queryset
+        return queryset
 
     def get_is_favorited(self, queryset, name, value):
         user = self.request.user
