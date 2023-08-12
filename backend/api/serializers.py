@@ -133,24 +133,24 @@ class ShowRecipeFullSerializer(serializers.ModelSerializer):
         )
 
     def get_ingredients(self, obj):
-        print(f'========================={obj}======================================')
+        print(f'======================={obj}===============================')
         ingredients = RecipeIngredient.objects.filter(recipe=obj)
         return ShowRecipeIngredientsSerializer(ingredients, many=True).data
 
     def get_is_favorited(self, obj):
         request = self.context.get('request')
-        print(f'========================={request}======================================')
+        print(f'========================={request}=========================')
         if not request or request.user.is_anonymous:
             return False
-        print(f'=========================ISFAVORIT======================================')
+        print('=======================ISFAVORIT============================')
         return Favorite.objects.filter(recipe=obj, user=request.user).exists()
 
     def get_is_in_shopping_cart(self, obj):
         request = self.context.get('request')
-        print(f'========================={request}======================================')
+        print(f'========================={request}=========================')
         if not request or request.user.is_anonymous:
-            return 
-        print(f'=========================INSHOPPINGCART======================================')
+            return False
+        print('======================INSHOPPINGCART=======================')
         return ShoppingList.objects.filter(recipe=obj,
                                            user=request.user).exists()
 
