@@ -1,4 +1,4 @@
-from django.db.models import Sum, QuerySet
+from django.db.models import Sum
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -12,7 +12,7 @@ from recipes.models import (Favorite, Ingredient,
                             ShoppingList, Tag)
 from recipes.utils import download_file_response
 from users.models import Follow
-from .filters import IngredientsFilter
+from .filters import IngredientsFilter, RecipeFilter
 from .mixins import RetriveAndListViewSet
 from .paginator import CustomPaginator
 from .permissions import IsAuthorOrAdmin
@@ -113,36 +113,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     serializer_class = ShowRecipeFullSerializer
     permission_classes = [IsAuthorOrAdmin]
     filter_backends = [DjangoFilterBackend]
+    filterset_class = RecipeFilter
     pagination_class = CustomPaginator
-
-    def get_queryset(self) -> QuerySet[Recipe]:
-        queryset = self.queryset
-
-        tags: list = self.request.query_params.getlist("tags")
-        if tags:
-            for tag in tags:
-                queryset = queryset.filter(tags__slug=tag)
-
-        author: str = self.request.query_params.get("author")
-        if author:
-            queryset = queryset.filter(author=author)
-
-        if self.request.user.is_anonymous:
-            return queryset
-
-        is_in_cart: int = self.request.query_params.get("is_in_shopping_cart")
-        if is_in_cart == 1:
-            queryset = queryset.filter(in_carts__user=self.request.user)
-        elif is_in_cart == 0:
-            queryset = queryset.exclude(in_carts__user=self.request.user)
-
-        is_favorite: int = self.request.query_params.get("is_favorited")
-        if is_favorite == 1:
-            queryset = queryset.filter(in_favorites__user=self.request.user)
-        elif is_favorite == 0:
-            queryset = queryset.exclude(in_favorites__user=self.request.user)
-
-        return queryset
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
