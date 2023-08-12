@@ -127,7 +127,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_path="favorite",
         permission_classes=[IsAuthorOrAdmin],
     )
-    def favorite(self, request, pk=None):
+    def favorite(self, request, pk):
         user = request.user
         recipe = get_object_or_404(Recipe, id=pk)
         if request.method == "POST":
@@ -154,7 +154,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_path="shopping_cart",
         permission_classes=[IsAuthorOrAdmin],
     )
-    def shopping_cart(self, request, pk=None):
+    def shopping_cart(self, request, pk):
         user = request.user
         recipe = get_object_or_404(Recipe, id=pk)
         if request.method == "POST":
