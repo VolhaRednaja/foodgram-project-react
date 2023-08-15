@@ -1,26 +1,34 @@
 from django.db.models import Sum
-from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, permissions, status, viewsets
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from recipes.models import (Favorite, Ingredient,
-                            Recipe, RecipeIngredient,
-                            ShoppingList, Tag)
-from recipes.utils import download_file_response
-from users.models import Follow
+from .paginator import CustomPaginator
+
 from .filters import IngredientsFilter, RecipeFilter
 from .mixins import RetriveAndListViewSet
-from .paginator import CustomPaginator
+from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                     ShoppingList, Tag)
 from .permissions import IsAuthorOrAdmin
-from .serializers import (AddRecipeSerializer, CustomUserSerializer,
-                          FavouriteSerializer, IngredientsSerializer,
-                          ShoppingListSerializer, ShowRecipeFullSerializer,
-                          TagsSerializer, ShowFollowSerializer)
+from .serializers import (AddRecipeSerializer, FavouriteSerializer,
+                          IngredientsSerializer, ShoppingListSerializer,
+                          ShowRecipeFullSerializer, TagsSerializer)
+from recipes.utils import download_file_response
 
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions, status, viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.decorators import action
+
+from users.models import Follow
+from .paginator import CustomPaginator
+from .serializers import CustomUserSerializer, ShowFollowSerializer
+from rest_framework.permissions import (
+    AllowAny, IsAuthenticated
+)
 
 User = get_user_model()
 
@@ -124,10 +132,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=["POST", "DELETE"],
-        url_path="favorites",
+        url_path="favorite",
         permission_classes=[IsAuthorOrAdmin],
     )
-    def favorite(self, request, pk):
+    def favorite(self, request, pk=None):
         user = request.user
         recipe = get_object_or_404(Recipe, id=pk)
         if request.method == "POST":
@@ -154,7 +162,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         url_path="shopping_cart",
         permission_classes=[IsAuthorOrAdmin],
     )
-    def shopping_cart(self, request, pk):
+    def shopping_cart(self, request, pk=None):
         user = request.user
         recipe = get_object_or_404(Recipe, id=pk)
         if request.method == "POST":

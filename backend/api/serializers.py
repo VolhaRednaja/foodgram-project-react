@@ -1,15 +1,18 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
-from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 
-from recipes.models import (Favorite, Ingredient,
-                            Recipe, RecipeIngredient,
-                            ShoppingList, Tag)
-from users.models import Follow
+from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                     ShoppingList, Tag)
 
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from djoser.serializers import UserCreateSerializer, UserSerializer
+from recipes.models import Recipe
+from rest_framework import serializers
+
+from users.models import Follow
 
 User = get_user_model()
 
@@ -73,7 +76,6 @@ class ShowFollowSerializer(serializers.ModelSerializer):
         user = get_object_or_404(User, pk=obj.pk)
         return Recipe.objects.filter(author=user).count()
 
-
 class IngredientsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
@@ -114,10 +116,7 @@ class ShowRecipeSerializer(serializers.ModelSerializer):
 
 
 class ShowRecipeFullSerializer(serializers.ModelSerializer):
-    tags = TagsSerializer(
-        many=True,
-        read_only=True
-    )
+    tags = TagsSerializer(many=True, read_only=True)
     author = CustomUserSerializer(read_only=True)
     ingredients = serializers.SerializerMethodField()
     is_favorited = serializers.SerializerMethodField()
@@ -132,26 +131,23 @@ class ShowRecipeFullSerializer(serializers.ModelSerializer):
         )
 
     def get_ingredients(self, obj):
-        print(f'======================={obj}===============================')
         ingredients = RecipeIngredient.objects.filter(recipe=obj)
         return ShowRecipeIngredientsSerializer(ingredients, many=True).data
 
     def get_is_favorited(self, obj):
-        request = self.context.get('request')
-        print(f'========================={request}=========================')
-        if not request or request.user.is_anonymous:
-            return False
-        print('=======================ISFAVORIT============================')
-        return Favorite.objects.filter(recipe=obj, user=request.user).exists()
+        return (
+            self.context.get('request').user.is_authenticated
+            and Favorite.objects.filter(user=self.context['request'].user,
+                                        recipe=obj).exists()
+        )
 
     def get_is_in_shopping_cart(self, obj):
-        request = self.context.get('request')
-        print(f'========================={request}=========================')
-        if not request or request.user.is_anonymous:
-            return False
-        print('======================INSHOPPINGCART=======================')
-        return ShoppingList.objects.filter(recipe=obj,
-                                           user=request.user).exists()
+        return (
+            self.context.get('request').user.is_authenticated
+            and ShoppingList.objects.filter(
+                user=self.context['request'].user,
+                recipe=obj).exists()
+        )
 
 
 class AddRecipeIngredientsSerializer(serializers.ModelSerializer):
@@ -167,8 +163,8 @@ class AddRecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
     author = CustomUserSerializer(read_only=True)
     ingredients = AddRecipeIngredientsSerializer(many=True)
-    tags = serializers.SlugRelatedField(
-        queryset=Tag.objects.all(), many=True, slug_field="id"
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(), many=True
     )
     cooking_time = serializers.IntegerField()
 
@@ -184,7 +180,7 @@ class AddRecipeSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     'Каждый ингредиент может быть упомянут только один раз'
                 )
-            if ingredient['amount'] < 1:
+            elif ingredient['amount'] < 1:
                 raise serializers.ValidationError(
                     'Количество ингредиентов должно быть целым'
                     ' положительным числом'

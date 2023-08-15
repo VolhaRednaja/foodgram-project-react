@@ -1,9 +1,9 @@
-from django_filters.rest_framework import FilterSet, filters
+import django_filters as filters
 
 from recipes.models import Ingredient, Recipe, Tag
 
 
-class IngredientsFilter(FilterSet):
+class IngredientsFilter(filters.FilterSet):
     name = filters.CharFilter(
         field_name='name',
         lookup_expr='icontains',
@@ -14,30 +14,40 @@ class IngredientsFilter(FilterSet):
         fields = ('name',)
 
 
-class RecipeFilter(FilterSet):
-    tags = filters.ModelMultipleChoiceFilter(
-        field_name="tags__slug",
-        to_field_name="slug",
-        gueryset=Tag.objects.all(),
+class RecipeFilter(filters.FilterSet):
+    try:
+        tags = filters.ModelMultipleChoiceFilter(
+            field_name="tags__slug",
+            to_field_name="slug",
+            lookup_type='in',
+            gueryset=Tag.objects.all(),
+        )
+    except TypeError as e:
+        print(e)
+    is_favorited = filters.BooleanFilter(
+        method='get_favorite',
+        label='Favorited',
     )
-    is_favorited = filters.BooleanFilter(method="get_is_favorited")
     is_in_shopping_cart = filters.BooleanFilter(
-        method='get_is_in_shopping_cart'
+        method='get_shopping',
+        label='Is in shopping list',
     )
-
-    def get_is_favorited(self, queryset, name, value):
-        print(f'==================={queryset}===============================')
-        if value and not self.request.user_is_anonymus:
-            print("_________is_favorited_filter_work_________")
-            return queryset.filter(favorite__user=self.request.user)
-        print('==============================================================')
-        return queryset
-
-    def get_is_in_shopping_cart(self, queryset, name, value):
-        if value and not self.request.user_is_anonymus:
-            return queryset.filter(shopping_list__user=self.request.user)
-        return queryset
 
     class Meta:
         model = Recipe
-        fields = ["author", "tags", "is_favorited", "is_in_shopping_cart"]
+        fields = (
+            'is_favorited',
+            'author',
+            'tags',
+            'is_in_shopping_cart',
+        )
+
+    def get_favorite(self, queryset, name, item_value):
+        if self.request.user.is_authenticated and item_value:
+            queryset = queryset.filter(in_favorite__user=self.request.user)
+        return queryset
+
+    def get_shopping(self, queryset, name, item_value):
+        if self.request.user.is_authenticated and item_value:
+            queryset = queryset.filter(shopping_cart__user=self.request.user)
+        return queryset
