@@ -5,8 +5,8 @@ from rest_framework.serializers import ValidationError
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from recipes.models import Recipe
 from rest_framework import serializers
+
 from recipes.models import (Favorite, Ingredient,
                             Recipe, RecipeIngredient,
                             ShoppingList, Tag)
@@ -73,6 +73,7 @@ class ShowFollowSerializer(serializers.ModelSerializer):
     def get_recipes_count(self, obj):
         user = get_object_or_404(User, pk=obj.pk)
         return Recipe.objects.filter(author=user).count()
+
 
 class IngredientsSerializer(serializers.ModelSerializer):
     class Meta:

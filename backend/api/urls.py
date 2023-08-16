@@ -15,7 +15,6 @@ urlpatterns = [
     path('', include(router.urls)),
 ]
 
-
 urlpatterns += [
 
     path('auth/token/login/', TokenCreateView.as_view(), name='login'),

@@ -3,8 +3,6 @@
 import os
 import sys
 
-import logging
-
 
 def main():
     """Run administrative tasks."""
