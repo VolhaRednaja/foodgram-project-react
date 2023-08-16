@@ -1,9 +1,9 @@
-import django_filters as filters
+from django_filters.rest_framework import FilterSet, filters
 
 from recipes.models import Ingredient, Recipe, Tag
 
 
-class IngredientsFilter(filters.FilterSet):
+class IngredientsFilter(FilterSet):
     name = filters.CharFilter(
         field_name='name',
         lookup_expr='icontains',
@@ -14,16 +14,13 @@ class IngredientsFilter(filters.FilterSet):
         fields = ('name',)
 
 
-class RecipeFilter(filters.FilterSet):
-    try:
-        tags = filters.ModelMultipleChoiceFilter(
+class RecipeFilter(FilterSet):
+    tags = filters.ModelMultipleChoiceFilter(
             field_name="tags__slug",
             to_field_name="slug",
-            lookup_type='in',
-            gueryset=Tag.objects.all(),
+            queryset=Tag.objects.all(),
         )
-    except TypeError as e:
-        print(e)
+    
     is_favorited = filters.BooleanFilter(
         method='get_favorite',
         label='Favorited',
