@@ -6,7 +6,8 @@ from rest_framework import generics, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import (AllowAny, IsAuthenticated)
+from rest_framework.permissions import (AllowAny, IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 from .filters import IngredientsFilter, RecipeFilter
 from .mixins import RetriveAndListViewSet
 from .paginator import CustomPaginator
@@ -111,7 +112,7 @@ class TagsViewSet(RetriveAndListViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all().order_by('-id')
     serializer_class = ShowRecipeFullSerializer
-    permission_classes = [IsAuthorOrAdmin]
+    permission_classes = [IsAuthenticatedOrReadOnly,]
     filter_backends = [DjangoFilterBackend]
     filterset_class = RecipeFilter
     pagination_class = CustomPaginator
