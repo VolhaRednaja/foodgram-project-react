@@ -1,34 +1,26 @@
+from django.contrib.auth import get_user_model
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import permissions, status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from .paginator import CustomPaginator
-
-from .filters import IngredientsFilter, RecipeFilter
-from .mixins import RetriveAndListViewSet
-from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
-                     ShoppingList, Tag)
-from .permissions import IsAuthorOrAdmin
-from .serializers import (AddRecipeSerializer, FavouriteSerializer,
-                          IngredientsSerializer, ShoppingListSerializer,
-                          ShowRecipeFullSerializer, TagsSerializer)
-from recipes.utils import download_file_response
-
-from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import action
-
-from users.models import Follow
+from rest_framework.permissions import (AllowAny, IsAuthenticated)
+from .filters import IngredientsFilter, RecipeFilter
+from .mixins import RetriveAndListViewSet
 from .paginator import CustomPaginator
-from .serializers import CustomUserSerializer, ShowFollowSerializer
-from rest_framework.permissions import (
-    AllowAny, IsAuthenticated
-)
+from .permissions import IsAuthorOrAdmin
+from .serializers import (AddRecipeSerializer, CustomUserSerializer,
+                          FavouriteSerializer, IngredientsSerializer,
+                          ShoppingListSerializer, ShowFollowSerializer,
+                          ShowRecipeFullSerializer, TagsSerializer)
+from recipes.models import (Favorite, Ingredient,
+                            Recipe, RecipeIngredient,
+                            ShoppingList, Tag)
+from recipes.utils import download_file_response
+from users.models import Follow
+
 
 User = get_user_model()
 

@@ -16,11 +16,11 @@ class IngredientsFilter(FilterSet):
 
 class RecipeFilter(FilterSet):
     tags = filters.ModelMultipleChoiceFilter(
-            field_name="tags__slug",
-            to_field_name="slug",
-            queryset=Tag.objects.all(),
-        )
-    
+        field_name="tags__slug",
+        to_field_name="slug",
+        queryset=Tag.objects.all(),
+    )
+
     is_favorited = filters.BooleanFilter(
         method='get_favorite',
         label='Favorited',

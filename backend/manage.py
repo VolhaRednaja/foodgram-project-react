@@ -5,7 +5,6 @@ import sys
 
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
 
 def main():
     """Run administrative tasks."""
