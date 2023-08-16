@@ -129,12 +129,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[IsAuthorOrAdmin],
     )
     def favorite(self, request, pk=None):
-        create_relation( 
-            Favorite, 
-            FavouriteSerializer, 
-            request, 
-            "Этот рецепт уже в избранном", 
-            pk, 
+        create_relation(
+            Favorite,
+            FavouriteSerializer,
+            request,
+            "Этот рецепт уже в избранном",
+            pk,
         )
 
     @action(
@@ -144,12 +144,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[IsAuthorOrAdmin],
     )
     def shopping_cart(self, request, pk=None):
-        create_relation( 
-            ShoppingList, 
-            ShoppingListSerializer, 
-            request, 
-            "Этот рецепт уже в корзине покупок", 
-            pk, 
+        create_relation(
+            ShoppingList,
+            ShoppingListSerializer,
+            request,
+            "Этот рецепт уже в корзине покупок",
+            pk,
         )
 
     @action(detail=False, methods=["GET"],
