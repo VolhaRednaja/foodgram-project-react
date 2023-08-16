@@ -17,7 +17,6 @@ services:
 
   backend:
     image: volharednaja/foodgram_backend
-    #build: ../backend/
     volumes:
       - static:/code/static_backend/
       - media:/code/media/
@@ -29,9 +28,6 @@ services:
 
   frontend:
     image: volharednaja/foodgram_frontend
-    #build: 
-    #  context: ../frontend 
-    #  dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
