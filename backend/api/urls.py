@@ -21,8 +21,8 @@ urlpatterns = [
     path('users/subscriptions/', ListFollowViewSet.as_view(),
          name='subscription'
          ),
-    path('', include(router.urls)),
     path('auth/token/login/', TokenCreateView.as_view(), name='login'),
     path('auth/token/logout/', TokenDestroyView.as_view(), name='logout'),
-    path(r'auth/', include('djoser.urls.authtoken')),
+    path('auth/', include('djoser.urls.authtoken')),
+    path('', include(router.urls)),
 ]
