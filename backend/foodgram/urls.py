@@ -4,7 +4,8 @@ from django.urls import include, path
 from .yasg import urlpatterns as doc_urls
 
 api_patterns = [
-    path('', include('api.urls'))
+    path('', include('api.urls')),
+    path('', include('users.urls'))
 ]
 
 urlpatterns = [

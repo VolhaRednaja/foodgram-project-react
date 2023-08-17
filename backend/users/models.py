@@ -3,6 +3,10 @@ from django.db import models
 
 
 class User(AbstractUser):
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+
     email = models.EmailField(
         max_length=254,
         unique=True,
@@ -24,9 +28,6 @@ class User(AbstractUser):
         blank=False,
         verbose_name='Фамилия'
     )
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
     class Meta:
         ordering = ['username']
