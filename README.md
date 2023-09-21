@@ -32,7 +32,4 @@ docker compose exec backend python manage.py loaddata fixtures/ingredients.json
 
 ### Данные проекта
 
-адрес https://volha-foodgram.ddns.net/
-superuser: 
-  email: admin@ya.ru
-  password: admin
+Бывший адрес https://volha-foodgram.ddns.net/
